@@ -1,5 +1,7 @@
 <?php
 $titulo = "Registro";
+$relative_path = "..";
+$close_head = true;
 include_once "../include/head.php";
 
 if (isset($_POST["username"]) && isset($_POST["password"])) {
@@ -22,7 +24,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute(["username" => $username, "password" => $password]);
 
-        header("Location: /index.php");
+        header("Location: ../index.php");
         exit();
     }
 }

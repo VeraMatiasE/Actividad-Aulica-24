@@ -1,11 +1,13 @@
 <?php
 session_start();
 $titulo = "Login";
+$relative_path = "..";
+$close_head = true;
 include_once "../include/head.php";
 
 if (isset($_GET["salir"])) {
     session_destroy();
-    echo "<script>window.location='/index.php';</script>";
+    echo "<script>window.location='../index.php';</script>";
 }
 
 if (isset($_POST["login-username"]) && isset($_POST["login-password"])) {
@@ -31,7 +33,7 @@ if (isset($_POST["login-username"]) && isset($_POST["login-password"])) {
             $_SESSION["id"] = $resultado["id"];
             $_SESSION["nombre_usuario"] = $resultado["nombre"];
             echo "<script>alert('Bienvenido $_SESSION[nombre_usuario]')</script>";
-            header("Location: /index.php");
+            header("Location: ../index.php");
             exit();
         }
     }
