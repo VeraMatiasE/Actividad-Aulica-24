@@ -19,7 +19,7 @@ votarButtons.forEach((button) => {
                 let votos = parseInt(votosElement.textContent.replace(/[^\d]/g, ""));
                 votos++;
                 votosElement.innerHTML = `<span>Votos:</span> ${votos}`;
-                boton.style.display = "none";
+                boton.disabled = true;
                 alert("¡Gracias por tu voto!");
             } else if(respuesta.message === "Ya has votado por este disfraz.") {
                 alert("Ya había registrado su voto");

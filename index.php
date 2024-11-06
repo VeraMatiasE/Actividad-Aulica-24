@@ -19,7 +19,6 @@ include_once "include/head.php";
             <!-- Aquí se mostrarán los disfraces -->
             <?php
             include_once "include/basededatos.php";
-            $id_usuario = $_SESSION["id"];
 
             $pdo = conectarBaseDatos();
 
@@ -30,10 +29,15 @@ include_once "include/head.php";
             $stmt->execute();
             $disfrases = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $sql = "SELECT id_disfraz FROM votos WHERE id_usuario = :id_usuario";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute(["id_usuario" => $id_usuario]);
-            $votos = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            if (isset($_SESSION["id"])) {
+                $id_usuario = $_SESSION["id"];
+                $sql = "SELECT id_disfraz FROM votos WHERE id_usuario = :id_usuario";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(["id_usuario" => $id_usuario]);
+                $votos = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            } else {
+                $votos = [];
+            }
 
             foreach ($disfrases as $indice => $disfraz) {
                 ?>
@@ -59,13 +63,7 @@ include_once "include/head.php";
                     }
                     ?>
                     <p class="votos"><span>Votos:</span> <?php echo $disfraz["votos"] ?></p>
-                    <?php
-                    if (!in_array($disfraz["id"], $votos)) {
-                        ?>
-                        <button class="votar" <?php echo empty($_SESSION["id"]) ? "disabled" : "" ?>>Votar</button>
-                        <?php
-                    }
-                    ?>
+                    <button class="votar" <?php echo empty($_SESSION["id"]) || in_array($disfraz["id"], $votos) ? "disabled" : "" ?>>Votar</button>
                 </div>
                 <?php
             }
